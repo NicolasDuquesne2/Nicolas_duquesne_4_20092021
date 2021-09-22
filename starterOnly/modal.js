@@ -39,7 +39,8 @@ function closeModal() {
 
 function submitModal(event) {
   event.stopPropagation();
-  event.preventDefault();
+  let testValue = "";
+  let testValues = [];
   formData.forEach(fd => {
     let input =  fd.querySelector("input");
     let inputId = input.getAttribute("id");
@@ -50,37 +51,56 @@ function submitModal(event) {
       case "first":
         pattern = "\\w{2,}"; //two char at least needed
         string = input.value;
-        testTextInput(fd, string, pattern)
+        testValue = testTextInput(fd, string, pattern);
+        testValues.push(testValue);
+        setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "last":
         pattern = "\\w{2,}";
         string = input.value;
-        testTextInput(fd, string, pattern)
+        testValue = testTextInput(fd, string, pattern)
+        testValues.push(testValue);
+        setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "email":
         pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"; //email regex
         string = input.value;
-        testTextInput(fd, string, pattern)
+        testValue = testTextInput(fd, string, pattern)
+        testValues.push(testValue);
+        setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "birthdate":
-        testDateInput(fd, input.value);
+        testValue = testDateInput(fd, input.value);
+        testValues.push(testValue);
+        setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "quantity":
-        pattern ="\\d+";
+        pattern ="^[0-9]+$";
         string = input.value;
-        testTextInput(fd, string, pattern);
+        testValue = testTextInput(fd, string, pattern);
+        testValues.push(testValue);
+        setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "location1":
-        testRadio(fd);
+        testValue = testRadio(fd);
+        testValues.push(testValue);
+        setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "checkbox1":
         let id = "#checkbox1";
-        testCheckButton(fd, id);
+        testValue = testCheckButton(fd, id);
+        testValues.push(testValue);
+        setAtrrValue(fd,"data-error-visible", testValue);
         break;
       default:
         break;
     }
-  });  
+  });
+  if (testValues.indexOf("true") == -1) {
+    alert("Le formulaire a été complété correctement");
+  } else {
+    event.preventDefault();
+  }
 }
 
 
@@ -93,7 +113,7 @@ function testTextInput(fd, string, pattern) {
   } else {
     value = "true";
   }
-  setAtrrValue(fd,"data-error-visible", value);
+  return value;
 }
 
 //Event actions for Date inputs : only checks if the date value is not empty and calls the attribute modificator
@@ -105,7 +125,7 @@ function testDateInput(fd, string) {
   } else {
     value = "true";
   }
-  setAtrrValue(fd,"data-error-visible", value);
+  return value;
 }
 
 // Event actions for radio form : checks if one radio button is selected and calls the attribute modificator
@@ -121,7 +141,7 @@ function testRadio(fd) {
       value = "true";
     }
   }
-  setAtrrValue(fd,"data-error-visible", value);
+  return value
 }
 
 // Event actions for check button : checks if a check button is selected and calls the attribute modificator
@@ -135,7 +155,7 @@ function testCheckButton(fd, id) {
     value = "true";
   }
 
-  setAtrrValue(fd,"data-error-visible", value);
+  return value;
 }
 
 
@@ -149,5 +169,6 @@ function setAtrrValue(fd, name, value) {
 
 function regexTest(string, pattern) {
   const regex = new RegExp(pattern);
+  console.log(regex.test(string));
   return regex.test(string);
 }
