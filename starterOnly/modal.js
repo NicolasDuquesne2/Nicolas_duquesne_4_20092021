@@ -10,6 +10,7 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
+const form = document.forms["reserve"];
 const formData = document.querySelectorAll(".formData");
 const closeButton = document.querySelector(".close");
 const buttonSubmit = document.querySelector(".btn-submit");
@@ -93,8 +94,12 @@ function validate(event) {
   });
   if (testValues.indexOf("true") == -1) { 
     setAtrrValue(validContainer, "validate-text-visible", "true");
+    setTimeout(function () {
+      form.submit();
+    }, 9000);
   } else {
     setAtrrValue(validContainer, "validate-text-visible", "false");
+    return false;
   }
 }
 
