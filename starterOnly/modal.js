@@ -13,16 +13,10 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeButton = document.querySelector(".close");
 const buttonSubmit = document.querySelector(".btn-submit");
+const validContainer = document.querySelector(".validate-container");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-//launch close modal event
-
-closeButton.addEventListener('click', closeModal);
-
-// launch modal button submit
-buttonSubmit.addEventListener('click', submitModal); 
 
 // launch modal form
 function launchModal() {
@@ -32,13 +26,14 @@ function launchModal() {
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
+  setAtrrValue(validContainer, "validate-text-visible", "false");
 }
-
 
 // submit the modal
 
-function submitModal(event) {
+function validate(event) {
   event.stopPropagation();
+  event.preventDefault();
   let testValue = "";
   let testValues = [];
   formData.forEach(fd => {
@@ -96,10 +91,10 @@ function submitModal(event) {
         break;
     }
   });
-  if (testValues.indexOf("true") == -1) {
-    alert("Le formulaire a été complété correctement");
+  if (testValues.indexOf("true") == -1) { 
+    setAtrrValue(validContainer, "validate-text-visible", "true");
   } else {
-    event.preventDefault();
+    setAtrrValue(validContainer, "validate-text-visible", "false");
   }
 }
 

@@ -102,6 +102,7 @@ img {
 } 
 
 main {
+  position: relative;
   font-size: 130%;
   font-weight: bolder;
   color: black;
@@ -111,8 +112,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -135,6 +134,38 @@ main {
   margin: 20px;
   padding: 10px;
   font-family: var(--font-slab);
+}
+
+/* Validate container */
+
+.validate-container {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  padding: 10px;
+  background: #fe142f;
+  border-radius: 7px;
+  border-style: none;
+  transform: translate(100%);
+  transform-origin: top center;
+}
+
+.validate-container[validate-text-visible="true"] {
+  animation: opacityModulator 10s ease-in-out 0ms;
+}
+
+@keyframes opacityModulator {
+  0% {
+    transform: translate(100%);
+  }
+
+  30% {
+    transform: translate(0);
+  }
+
+  100% {
+    transform: translate(100%);
+  }
 }
 
 /* Modal form */

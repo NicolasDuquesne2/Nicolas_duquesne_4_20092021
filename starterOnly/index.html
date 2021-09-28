@@ -51,16 +51,18 @@
           je m'inscris
         </button>
       </div>
-
       <div class="bground">
         <div class="content">
-          <span class="close"></span>
+          <span class="close" onclick="return closeModal()"></span>
           <div class="modal-body">
+            <div class="validate-container" validate-text-visible="false">
+              <p class="validate-text">Merci ! Votre réservation a bien été enregistrée</p>
+            </div>
             <form
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="return validate();"
+              onsubmit="return validate(event);"
             >
               <div
                 class="formData" 
