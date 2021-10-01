@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css?family=DM+Sans"
       rel="stylesheet"
     />
+    <script src="modal.js" defer></script>
   </head>
   <body>
     <div class="topnav" id="myTopnav">
@@ -50,14 +51,14 @@
         <button class="btn-signup modal-btn">
           je m'inscris
         </button>
+        <div class="validate-container" validate-text-visible="false">
+          <p class="validate-text">Merci ! Votre réservation a bien été enregistrée</p>
+        </div>
       </div>
       <div class="bground">
         <div class="content">
           <span class="close" onclick="return closeModal()"></span>
           <div class="modal-body">
-            <div class="validate-container" validate-text-visible="false">
-              <p class="validate-text">Merci ! Votre réservation a bien été enregistrée</p>
-            </div>
             <form
               name="reserve"
               action="index.html"
@@ -231,6 +232,5 @@
         Copyright 2014 - 2020, GameOn Inc.
       </p>
     </footer>
-    <script src="modal.js"></script>
   </body>
 </html>

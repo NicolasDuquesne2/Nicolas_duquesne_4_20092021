@@ -34,7 +34,6 @@ function closeModal() {
 
 function validate(event) {
   event.stopPropagation();
-  event.preventDefault();
   let testValue = "";
   let testValues = [];
   formData.forEach(fd => {
@@ -94,9 +93,7 @@ function validate(event) {
   });
   if (testValues.indexOf("true") == -1) { 
     setAtrrValue(validContainer, "validate-text-visible", "true");
-    setTimeout(function () {
-      form.submit();
-    }, 9000);
+    alert("Merci pour votre inscription");
   } else {
     setAtrrValue(validContainer, "validate-text-visible", "false");
     return false;
