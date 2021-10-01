@@ -16,6 +16,10 @@ const closeButton = document.querySelector(".close");
 const buttonSubmit = document.querySelector(".btn-submit");
 const validContainer = document.querySelector(".validate-container");
 
+//variables
+
+let testValues = [];
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -35,7 +39,6 @@ function closeModal() {
 function validate(event) {
   event.stopPropagation();
   let testValue = "";
-  let testValues = [];
   formData.forEach(fd => {
     let input =  fd.querySelector("input");
     let inputId = input.getAttribute("id");
@@ -47,51 +50,44 @@ function validate(event) {
         pattern = "\\w{2,}"; //two char at least needed
         string = input.value;
         testValue = testTextInput(fd, string, pattern);
-        testValues.push(testValue);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "last":
         pattern = "\\w{2,}";
         string = input.value;
         testValue = testTextInput(fd, string, pattern)
-        testValues.push(testValue);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "email":
         pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"; //email regex
         string = input.value;
         testValue = testTextInput(fd, string, pattern)
-        testValues.push(testValue);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "birthdate":
         testValue = testDateInput(fd, input.value);
-        testValues.push(testValue);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "quantity":
         pattern ="^[0-9]+$";
         string = input.value;
         testValue = testTextInput(fd, string, pattern);
-        testValues.push(testValue);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "location1":
         testValue = testRadio(fd);
-        testValues.push(testValue);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "checkbox1":
         let id = "#checkbox1";
         testValue = testCheckButton(fd, id);
-        testValues.push(testValue);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       default:
         break;
     }
   });
-  if (testValues.indexOf("true") == -1) { 
+  if (testValues.indexOf(false) == -1) { 
     setAtrrValue(validContainer, "validate-text-visible", "true");
     alert("Merci pour votre inscription");
   } else {
@@ -105,7 +101,10 @@ function validate(event) {
 
 function testTextInput(fd, string, pattern) {
   let value = "";
-  if (regexTest(string, pattern)) {
+  let regexResult = regexTest(string, pattern);
+  testValues.push(regexResult);
+
+  if (regexResult) {
     value = "false";
   } else {
     value = "true";
@@ -119,8 +118,10 @@ function testDateInput(fd, string) {
   let value = "";
   if (string) {
     value = "false";
+    testValues.push(true);
   } else {
     value = "true";
+    testValues.push(false);
   }
   return value;
 }
@@ -138,6 +139,13 @@ function testRadio(fd) {
       value = "true";
     }
   }
+
+  if (value == "true") {
+    testValues.push(false);
+  }else {
+    testValues.push(true);
+  }
+
   return value
 }
 
@@ -148,8 +156,10 @@ function testCheckButton(fd, id) {
   let value ="";
   if (input.checked == true) {
     value = "false";
+    testValues.push(true);
   } else {
     value = "true";
+    testValues.push(false);
   }
 
   return value;
