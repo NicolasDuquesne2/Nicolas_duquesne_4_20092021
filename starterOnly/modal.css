@@ -140,6 +140,7 @@ main {
 
 .validate-container {
   position: absolute;
+  visibility: hidden;
   top: 50%;
   left: 0;
   padding: 10px;
@@ -151,6 +152,7 @@ main {
 }
 
 .validate-container[validate-text-visible="true"] {
+  visibility: visible;
   animation: opacityModulator 10s ease-in-out 0ms;
 }
 
@@ -213,6 +215,7 @@ main {
   color: #fff;
   padding-top: 10px;
 }
+
 
 .modal-body {
   padding: 15px 8%;
