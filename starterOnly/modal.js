@@ -15,10 +15,15 @@ const formData = document.querySelectorAll(".formData");
 const closeButton = document.querySelector(".close");
 const buttonSubmit = document.querySelector(".btn-submit");
 const validContainer = document.querySelector(".validate-container");
+const modalBody = document.querySelector(".modal-body");
 
 //variables
 
 let testValues = [];
+const currentUrl = document.location.href;
+
+//console.log(document.location.href)
+//console.log(document.location.origin + document.location.pathname);
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -31,7 +36,37 @@ function launchModal() {
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
+}
+
+//close the validate modal 
+
+function closeValidateModal() {
   setAtrrValue(validContainer, "validate-text-visible", "false");
+  let urlPart = testFormDatas(currentUrl, 1);
+  window.location.replace(urlPart);
+}
+
+// test url and excute confirm message. If url has the form datas, a modal confirmation message apears and the page is reloaded 
+
+
+let urlPart = testFormDatas(currentUrl, 2);
+if (urlPart) {
+  setAtrrValue(validContainer, "validate-text-visible", "true");
+} else {
+  setAtrrValue(validContainer, "validate-text-visible", "false");
+}
+
+
+// test form datas presence in the url
+
+function testFormDatas(url, group) {
+  let pattern = "([a-zA-Z0-9.\\/:%-]+)(\\?first=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&last=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&email=[a-zA-Z0-9_.+-]+%40[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+&birthdate=(19[2-9][0-9]|200[0-9])-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])&quantity=([0-9]|[1-9][0-9]+)&location=[a-zA-Z]+[+]?[a-zA-Z0-9]+)";
+  let regexResult = regexTest(url, pattern);
+  if (regexResult) {
+    let textGroups = url.match(pattern);
+    let textGroup = textGroups[group];
+    return textGroup;
+  }
 }
 
 // submit the modal
@@ -47,13 +82,13 @@ function validate(event) {
     //for each input, adapted function is called according to its type(text, checkbox, radio)
     switch(inputId) {
       case "first":
-        pattern = "\\w{2,}"; //two char at least needed
+        pattern = "^[a-zA-Z]+[-_ ]?[a-zA-Z0-9]$"; //two char at least needed
         string = input.value;
         testValue = testTextInput(fd, string, pattern);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "last":
-        pattern = "\\w{2,}";
+        pattern = "^[a-zA-Z]+[-_ ]?[a-zA-Z0-9]$";
         string = input.value;
         testValue = testTextInput(fd, string, pattern)
         setAtrrValue(fd,"data-error-visible", testValue);
@@ -65,11 +100,13 @@ function validate(event) {
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "birthdate":
-        testValue = testDateInput(fd, input.value);
+        pattern = "^(19[2-9][0-9]|200[0-9])-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$";
+        string = input.value;
+        testValue = testTextInput(fd, string, pattern);
         setAtrrValue(fd,"data-error-visible", testValue);
         break;
       case "quantity":
-        pattern ="^[0-9]+$";
+        pattern ="^([0-9]|[1-9][0-9]+)$";
         string = input.value;
         testValue = testTextInput(fd, string, pattern);
         setAtrrValue(fd,"data-error-visible", testValue);
@@ -88,8 +125,7 @@ function validate(event) {
     }
   });
   if (testValues.indexOf(false) == -1) { 
-    setAtrrValue(validContainer, "validate-text-visible", "true");
-    alert("Merci pour votre inscription");
+    return true;
   } else {
     setAtrrValue(validContainer, "validate-text-visible", "false");
     return false;
@@ -108,20 +144,6 @@ function testTextInput(fd, string, pattern) {
     value = "false";
   } else {
     value = "true";
-  }
-  return value;
-}
-
-//Event actions for Date inputs : only checks if the date value is not empty and calls the attribute modificator
-
-function testDateInput(fd, string) {
-  let value = "";
-  if (string) {
-    value = "false";
-    testValues.push(true);
-  } else {
-    value = "true";
-    testValues.push(false);
   }
   return value;
 }
@@ -165,7 +187,6 @@ function testCheckButton(fd, id) {
   return value;
 }
 
-
 //attribute modificator
 
 function setAtrrValue(fd, name, value) {
@@ -176,6 +197,5 @@ function setAtrrValue(fd, name, value) {
 
 function regexTest(string, pattern) {
   const regex = new RegExp(pattern);
-  console.log(regex.test(string));
   return regex.test(string);
 }

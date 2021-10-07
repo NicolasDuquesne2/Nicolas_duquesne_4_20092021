@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <title>Reservation</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
     <link rel="stylesheet" href="modal.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link
@@ -15,7 +15,7 @@
   <body>
     <div class="topnav" id="myTopnav">
       <div class="header-logo">
-      <img alt="logo" src="Logo.png" width="auto" height="auto" />
+      <img alt="logo" src="Logo.png" />
     </div>
     <div class="main-navbar">
       
@@ -53,6 +53,7 @@
         </button>
         <div class="validate-container" validate-text-visible="false">
           <p class="validate-text">Merci ! Votre réservation a bien été enregistrée</p>
+          <span class="close" onclick="return closeValidateModal()"></span>
         </div>
       </div>
       <div class="bground">
@@ -62,6 +63,7 @@
             <form
               name="reserve"
               action="index.html"
+              novalidate
               method="get"
               onsubmit="return validate(event);"
             >
@@ -104,7 +106,7 @@
               </div>
               <div
                 class="formData" 
-                data-error="Une date de type jj/mm/aaaa doit être entrée"
+                data-error="Une date de format jj/mm/aaaa et entre 1920 et 2009 doit être entrée"
                 data-error-visible="false">
                 <label>Date de naissance</label><br>
                 <input
@@ -116,7 +118,7 @@
               </div>
               <div
                 class="formData" 
-                data-error="Veuillez entrer un chiffre valide"
+                data-error="Veuillez entrer un chiffre valide. Les nombrs à plusieurs chiffres ne peuvent commancer avec un 0"
                 data-error-visible="false">
                 <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
@@ -202,7 +204,6 @@
                   class="checkbox-input"
                   type="checkbox"
                   id="checkbox1"
-                  checked
                 />
                 <label class="checkbox2-label" for="checkbox1" required>
                   <span class="checkbox-icon"></span>
