@@ -41,8 +41,10 @@ function closeModal() {
 
 function closeValidateModal() {
   modalbg.style.display = "block";
-  let urlPart = testFormDatas(currentUrl, 1);
-  window.location.replace(urlPart);
+  let urlPart = testFormDatas(currentUrl);
+  if (urlPart) {
+    window.location.replace("https://nicolasduquesne2.github.io/Nicolas_duquesne_4_20092021/");
+  }
 }
 
 // At loading page
@@ -62,14 +64,10 @@ if (urlPart) {
 
 // At loading page : test form datas presence in the url
 
-function testFormDatas(url, group) {
-  let pattern = "([a-zA-Z0-9.\\/:%-]+)([0-9]+\\/index.html\\?first=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&last=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&email=[a-zA-Z0-9_.+-]+%40[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+&birthdate=(19[2-9][0-9]|200[0-9])-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])&quantity=([0-9]|[1-9][0-9]+)&location=[a-zA-Z]+[+]?[a-zA-Z0-9]+)";
+function testFormDatas(url) {
+  let pattern = "([a-zA-Z0-9.\\/:%-]+)(\\?first=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&last=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&email=[a-zA-Z0-9_.+-]+%40[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+&birthdate=(19[2-9][0-9]|200[0-9])-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])&quantity=([0-9]|[1-9][0-9]+)&location=[a-zA-Z]+[+]?[a-zA-Z0-9]+)";
   let regexResult = regexTest(url, pattern);
-  if (regexResult) {
-    let textGroups = url.match(pattern);
-    let textGroup = textGroups[group];
-    return textGroup;
-  }
+  return regexResult;
 }
 
 // the message confirmation building
