@@ -151,32 +151,6 @@ main {
   font-family: var(--font-slab);
 }
 
-/* Validate container */
-
-.validate-container {
-  position: fixed;
-  z-index: 2;
-  height: 0;
-  visibility: hidden;
-  top: 50%;
-  padding: 10px;
-  background: #fe142f;
-  border-radius: 7px;
-  border-style: none;
-  transform: translate(100%);
-  transform-origin: top center;
-}
-
-.validate-container[validate-text-visible="true"] {
-  height: auto;
-  visibility: visible;
-}
-
-.validate-text {
-  width: 90%;
-  color: #fff;
-}
-  
 
 /* Modal form */
 
@@ -251,11 +225,11 @@ input {
 }
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.8em;
+  font-size: 0.5em;
   color: #e54858;
   display: block;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   text-align: right;
   line-height: 0.3;
   opacity: 0;
@@ -523,6 +497,7 @@ input[data-error]::after {
   }
 
   .formData[data-error]::after {
+    font-size: 0.8rem;
     margin-top: 7px;
     margin-bottom: 7px;
   }
