@@ -10,6 +10,7 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
+const content = document.querySelector(".content");
 const form = document.forms["reserve"];
 const formData = document.querySelectorAll(".formData");
 const closeButton = document.querySelector(".close");
@@ -19,11 +20,9 @@ const modalBody = document.querySelector(".modal-body");
 
 //variables
 
-let testValues = [];
-const currentUrl = document.location.href;
 
-//console.log(document.location.href)
-//console.log(document.location.origin + document.location.pathname);
+const currentUrl = document.location.href;
+let testValues = [];
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -41,23 +40,27 @@ function closeModal() {
 //close the validate modal 
 
 function closeValidateModal() {
-  setAtrrValue(validContainer, "validate-text-visible", "false");
+  modalbg.style.display = "block";
   let urlPart = testFormDatas(currentUrl, 1);
   window.location.replace(urlPart);
 }
 
-// test url and excute confirm message. If url has the form datas, a modal confirmation message apears and the page is reloaded 
+// At loading page
+
+
+// At loading page : test url and excute confirm message. If url contains the form datas, a modal confirmation message apears and the page is reloaded 
 
 
 let urlPart = testFormDatas(currentUrl, 2);
 if (urlPart) {
+  buidModalConfirmation();
   setAtrrValue(validContainer, "validate-text-visible", "true");
 } else {
   setAtrrValue(validContainer, "validate-text-visible", "false");
 }
 
 
-// test form datas presence in the url
+// At loading page : test form datas presence in the url
 
 function testFormDatas(url, group) {
   let pattern = "([a-zA-Z0-9.\\/:%-]+)(\\?first=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&last=[a-zA-Z]+[-_ ]?[a-zA-Z0-9]&email=[a-zA-Z0-9_.+-]+%40[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+&birthdate=(19[2-9][0-9]|200[0-9])-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])&quantity=([0-9]|[1-9][0-9]+)&location=[a-zA-Z]+[+]?[a-zA-Z0-9]+)";
@@ -69,10 +72,56 @@ function testFormDatas(url, group) {
   }
 }
 
+// the message confirmation building
+
+function buidModalConfirmation() {
+  modalBody.innerHTML = "";
+  closeButton.addEventListener("click", closeValidateModal);
+  content.style.height = getElementHeight();
+  let pElement = document.createElement("p");
+  pElement.setAttribute("class", "valid-message-text");
+  pElement.innerText = "Merci de vous être enregistré";
+  pElement.style.fontSize = "36px";
+  pElement.style.display = "flex";
+  pElement.style.flexDirection = "column";
+  pElement.style.justifyContent = "flex-end";
+  pElement.style.alignItems = "center";
+  pElement.style.textAlign = "center";
+  pElement.style.height = "50%";
+
+  let btnOk = document.createElement("BUTTON");
+  btnOk.innerHTML = "Fermer";
+  btnOk.setAttribute("class", "btn-signup modal-btn");
+  btnOk.addEventListener("click", closeValidateModal);
+  btnOk.style.alignSelf = "center";
+
+  modalBody.appendChild(pElement);
+  modalBody.appendChild(btnOk);
+  modalBody.style.height = "96%";
+  modalBody.style.display = "flex";
+  modalBody.style.flexDirection ="column";
+  modalBody.style.justifyContent = "space-between";
+  launchModal();
+}
+
+// gives the right height according to width window
+
+function getElementHeight() {
+  const windowWidth = window.innerWidth;
+
+  if (windowWidth > 768) {
+    return "772px";
+  } else {
+    return "677px";
+  }
+}
+
+
 // submit the modal
 
 function validate(event) {
   event.stopPropagation();
+  testValues = [];
   let testValue = "";
   formData.forEach(fd => {
     let input =  fd.querySelector("input");
@@ -127,8 +176,7 @@ function validate(event) {
   if (testValues.indexOf(false) == -1) { 
     return true;
   } else {
-    setAtrrValue(validContainer, "validate-text-visible", "false");
-    return false;
+    event.preventDefault();
   }
 }
 

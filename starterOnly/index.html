@@ -51,10 +51,6 @@
         <button class="btn-signup modal-btn">
           je m'inscris
         </button>
-        <div class="validate-container" validate-text-visible="false">
-          <p class="validate-text">Merci ! Votre réservation a bien été enregistrée</p>
-          <span class="close" onclick="return closeValidateModal()"></span>
-        </div>
       </div>
       <div class="bground">
         <div class="content">
@@ -106,7 +102,7 @@
               </div>
               <div
                 class="formData" 
-                data-error="Une date de format jj/mm/aaaa et entre 1920 et 2009 doit être entrée"
+                data-error="Veullez entrer une date entre 1920 et 2009"
                 data-error-visible="false">
                 <label>Date de naissance</label><br>
                 <input
@@ -118,7 +114,7 @@
               </div>
               <div
                 class="formData" 
-                data-error="Veuillez entrer un chiffre valide. Les nombrs à plusieurs chiffres ne peuvent commancer avec un 0"
+                data-error="Veuillez entrer un chiffre ne commancant pas par zero"
                 data-error-visible="false">
                 <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
